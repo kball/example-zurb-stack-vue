@@ -96,13 +96,24 @@ function sass() {
 }
 
 let webpackConfig = {
+  resolve: {
+    extensions: ['.js', '.vue', '.json'],
+  },
   module: {
     rules: [
       {
         test: /.js$/,
         use: [
           {
-            loader: 'babel-loader'
+            loader: 'babel-loader',
+          }
+        ],
+      },
+      {
+        test: /.vue$/,
+        use: [
+          {
+            loader: 'vue-loader'
           }
         ]
       }
@@ -154,6 +165,7 @@ function watch() {
   gulp.watch('src/{layouts,partials}/**/*.html').on('all', gulp.series(resetPages, pages, browser.reload));
   gulp.watch('src/assets/scss/**/*.scss').on('all', sass);
   gulp.watch('src/assets/js/**/*.js').on('all', gulp.series(javascript, browser.reload));
+	gulp.watch('src/assets/js/**/*.vue').on('all', gulp.series(javascript, browser.reload));
   gulp.watch('src/assets/img/**/*').on('all', gulp.series(images, browser.reload));
   gulp.watch('src/styleguide/**').on('all', gulp.series(styleGuide, browser.reload));
 }
